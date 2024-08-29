@@ -1,5 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import { Sidebar } from "@/components/Sidebar";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +16,28 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="flex h-screen bg-background">
+          <Sidebar className="w-64 hidden md:block" />
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="md:hidden absolute top-4 left-4"
+              >
+                <Menu className="h-4 w-4" />
+                <span className="sr-only">Abrir menú</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="p-0">
+              <Sidebar />
+            </SheetContent>
+          </Sheet>
+          <main className="flex-1 p-4 overflow-auto">{children}</main>
+          <Toaster />
+        </div>
+      </body>
     </html>
   );
 }
